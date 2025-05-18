@@ -1,5 +1,5 @@
 from .database import db
-from .models import User, Role, ServiceReq, Service
+from .models import User, Role
 from flask import current_app as app, jsonify, request, render_template
 from flask_security import auth_required, roles_required, current_user, roles_accepted, login_user
 # from flask_security import hash_password
