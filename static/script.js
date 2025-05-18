@@ -1,6 +1,6 @@
 import Home from './components/home.js'
 import Login from './components/login.js'
-// import Register from './components/register.js'
+import Admin_Dashboard from './components/admin_dashboard.js'
 import Register_Customer from './components/register_customer.js'
 import cart from './components/cart.js'
 import Footer from './components/footer.js'
@@ -13,14 +13,10 @@ const routes=[
     {path:'/', component:Home},
     {path:'/login', component:Login},
     {path:'/register_customer', component:Register_Customer},
-    // {path:'/register_professional', component:Register_Professional},
     {path:'/user_dashboard', component:User_Dashboard},
     {path:'/addproduct', component:Add_Product},
     {path:'/cart', component:cart},
-    // {path:'/admin_dashboard', component:Admin_Dashboard},
-    // {path:'/addservice', component:AddService},
-    // {path:'/updateservice', component:UpdateService},
-    // {path:'/deleteservice', component:DeleteService},
+    {path:'/admin_dashboard', component:Admin_Dashboard},
 ]
   
 

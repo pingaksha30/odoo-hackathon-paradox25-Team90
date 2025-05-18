@@ -109,3 +109,20 @@ def getcart():
             })
 
     return jsonify(result)
+
+@app.route('/api/getusers')
+def getusers():
+    user_list = User.query.all()
+
+    result = []
+
+    for user in user_list:
+        result.append({
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "address": user.address,
+                "pincode": user.pincode
+            })
+
+    return jsonify(result)

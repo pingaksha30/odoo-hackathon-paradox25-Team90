@@ -50,8 +50,8 @@ export default {
                 localStorage.setItem("username", data.username)
                 if (data.roles.includes("customer")){
                    this.$router.push("/user_dashboard")}
-                else if (data.roles.includes("service_proffesional")){
-                    this.$router.push("/service_prof_dashboard")
+                else if (data.roles.includes("admin")){
+                    this.$router.push("/admin_dashboard")
                 }
                 
                 }
