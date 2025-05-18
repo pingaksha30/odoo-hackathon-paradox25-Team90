@@ -1,42 +1,56 @@
 from flask_restful import Api, Resource, reqparse
 from .models import *
-from flask_security import auth_required, roles_required, current_user, roles_accepted
+from flask_security import auth_required, roles_accepted, current_user
 from .utils import roles_list
-api=Api()
 
-parser= reqparse.RequestParser()
+api = Api()
 
-parser.add_argument('name')
-parser.add_argument('price')
-parser.add_argument('category')
-parser.add_argument('description')
-parser.add_argument('listedby')
-parser.add_argument('status')
-parser.add_argument('boughtby')
+# Parser for POST
+parser = reqparse.RequestParser()
+parser.add_argument('name', required=True)
+parser.add_argument('price', required=True)
+parser.add_argument('category', required=True)
+parser.add_argument('description', required=True)
 
-class TransApi(Resource):
-    @auth_required('token')
-    @roles_accepted('customer','admin')
+# GET all products
+class ProductList(Resource):
     def get(self):
-        products=[]
-        req_json=[]
-        if "admin" in roles_list(current_user.roles):
-            products=Products.query.all()
-        else:
-            products=Products.query.filter_by(listedby=current_user.username).all()
-        for product in products:
-            this_req={}
-            this_req['id']=product.id
-            this_req['name']=product.name    
-            this_req['price']=product.price
-            this_req['category']=product.category
-            this_req['description']=product.description
-            this_req['listedby']=product.listedby
-            this_req['status']=product.status
-            this_req['boughtby']=product.boughtby
-            req_json.append(this_req)
-            
-        if req_json:
-            return req_json
-        else:
-            return {"message":"No products found"}, 404
+        products = Products.query.all()
+        result = [{
+            "id": p.id,
+            "name": p.name,
+            "price": p.price,
+            "category": p.category,
+            "description": p.description,
+            "listedby": p.listedby,
+            "status": p.status,
+            "boughtby": p.boughtby
+        } for p in products]
+
+        return result if result else {"message": "No products found"}, 200
+
+# POST a new product
+class ProductCreate(Resource):
+    @auth_required('token')
+    @roles_accepted('customer')
+    def post(self):
+        args = parser.parse_args()
+        try:
+            product = Products(
+                name=args['name'],
+                price=args['price'],
+                category=args['category'],
+                description=args['description'],
+                listedby=current_user.id,
+                status='available',
+                boughtby=None
+            )
+            db.session.add(product)
+            db.session.commit()
+            return {"message": "Product created successfully"}, 201
+        except Exception as e:
+            return {"message": f"Failed to create product: {str(e)}"}, 400
+
+# Register the endpoints
+api.add_resource(ProductList, '/api/get')      # GET
+api.add_resource(ProductCreate, '/api/post')   # POST

@@ -6,11 +6,7 @@ import Register_Customer from './components/register_customer.js'
 import Footer from './components/footer.js'
 import Navbar from './components/navbar.js'
 import User_Dashboard from './components/user_dashboard.js'
-// import Service_Prof_Dashboard from './components/service_prof_dashboard.js'
-// import Admin_Dashboard from './components/admin_dashboard.js'
-// import AddService from './components/addservice.js'
-// import UpdateService from './components/updateservice.js'
-// import DeleteService from './components/deleteservice.js'
+import Add_Product from './components/addproducts.js'
 
 
 const routes=[
@@ -19,6 +15,7 @@ const routes=[
     {path:'/register_customer', component:Register_Customer},
     // {path:'/register_professional', component:Register_Professional},
     {path:'/user_dashboard', component:User_Dashboard},
+    {path:'/addproduct', component:Add_Product},
     // {path:'/service_prof_dashboard', component:Service_Prof_Dashboard},
     // {path:'/admin_dashboard', component:Admin_Dashboard},
     // {path:'/addservice', component:AddService},

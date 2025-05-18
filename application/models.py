@@ -32,12 +32,12 @@ class UsersRoles(db.Model):
 
 class Products(db.Model):
     id= db.Column(db.Integer, primary_key=True)
-    name=db.Column(db.String, nullable=False)
-    price=db.Column(db.Integer, nullable=False)
-    category=db.Column(db.String, db.ForeignKey('category.name'), nullable=False)
-    description=db.Column(db.String, nullable=False)
-    listedby=db.Column(db.String, nullable=False)
-    status=db.Column(db.String, nullable=False, default="available")
+    name=db.Column(db.String, nullable=True)
+    price=db.Column(db.Integer, nullable=True)
+    category=db.Column(db.String, db.ForeignKey('category.name'), nullable=True)
+    description=db.Column(db.String, nullable=True)
+    listedby=db.Column(db.String, db.ForeignKey('user.id'), nullable=True)
+    status=db.Column(db.String, nullable=True, default="available")
     boughtby=db.Column(db.String, nullable=True)
 
 class Cart(db.Model):
