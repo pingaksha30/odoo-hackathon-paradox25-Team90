@@ -2,7 +2,7 @@ import Home from './components/home.js'
 import Login from './components/login.js'
 // import Register from './components/register.js'
 import Register_Customer from './components/register_customer.js'
-// import Register_Professional from './components/register_professional.js'
+import cart from './components/cart.js'
 import Footer from './components/footer.js'
 import Navbar from './components/navbar.js'
 import User_Dashboard from './components/user_dashboard.js'
@@ -16,7 +16,7 @@ const routes=[
     // {path:'/register_professional', component:Register_Professional},
     {path:'/user_dashboard', component:User_Dashboard},
     {path:'/addproduct', component:Add_Product},
-    // {path:'/service_prof_dashboard', component:Service_Prof_Dashboard},
+    {path:'/cart', component:cart},
     // {path:'/admin_dashboard', component:Admin_Dashboard},
     // {path:'/addservice', component:AddService},
     // {path:'/updateservice', component:UpdateService},

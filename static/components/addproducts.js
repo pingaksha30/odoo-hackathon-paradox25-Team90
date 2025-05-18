@@ -120,7 +120,8 @@ export default {
           name: '',
           description: '',
           category: '',
-          price: ''
+          price: '',
+          status: 'available'
         },
         message: '',
         categories: []

@@ -50,7 +50,7 @@ export default {
 
     methods: {
         registerUser() {
-            fetch('/api/register/customer',{
+            fetch('/api/register',{
                 method: 'POST',
                 headers:{
                     "Content-Type":"application/json"

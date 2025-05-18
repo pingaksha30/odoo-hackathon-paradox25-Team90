@@ -183,6 +183,15 @@ export default {
   `,
   data() {
     return {
+      formData: {
+        id: '',
+        listedby: localStorage.getItem('user_id'),
+        name: '',
+        description: '',
+        category: '',
+        price: '',
+        status: 'available'
+      },
       userData: {},
       products: [],
       searchQuery: '',
@@ -212,7 +221,26 @@ export default {
         })
         .catch(err => console.error("Failed to fetch products:", err));
     },
+
     addToCart(product) {
+      this.formData.id = product.id;
+      this.formData.name = product.name;
+      this.formData.price = product.price;
+      this.formData.category = product.category;
+      this.formData.description = product.description;
+      this.formData.status = 'carted';
+
+      fetch('/api/put', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authentication-Token': localStorage.getItem('auth_token')
+        },
+        body: JSON.stringify(this.formData)
+      }).then(res => {
+        if (!res.ok) throw new Error(`Failed to add to cart: ${res.status}`);
+      })
+
       alert(`Added ${product.name} to cart!`);
     },
     filterProducts() {

@@ -40,11 +40,12 @@ class Products(db.Model):
     status=db.Column(db.String, nullable=True, default="available")
     boughtby=db.Column(db.String, nullable=True)
 
+    cart_items = db.relationship("Cart", backref="product")
+
 class Cart(db.Model):
     id= db.Column(db.Integer, primary_key=True)
     product_id=db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    quantity=db.Column(db.Integer, nullable=False)
     price=db.Column(db.Integer, nullable=False)
 
 class Category(db.Model):

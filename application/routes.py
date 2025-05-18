@@ -91,3 +91,21 @@ def category():
         })
 
     return jsonify(result)
+
+@app.route('/api/getcart')
+def getcart():
+    cart_list = Cart.query.filter_by(user_id=current_user.id).all()
+
+    result = []
+
+    for cart in cart_list:
+        result.append({
+                "product_id": cart.product_id,
+                "user_id": cart.user_id,
+                "price": cart.price,
+                "name": cart.product.name,
+                "category": cart.product.category,
+                "description": cart.product.description
+            })
+
+    return jsonify(result)

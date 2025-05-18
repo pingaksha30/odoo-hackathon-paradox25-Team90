@@ -7,10 +7,12 @@ api = Api()
 
 # Parser for POST
 parser = reqparse.RequestParser()
-parser.add_argument('name', required=True)
-parser.add_argument('price', required=True)
-parser.add_argument('category', required=True)
-parser.add_argument('description', required=True)
+parser.add_argument('id')
+parser.add_argument('name')
+parser.add_argument('price')
+parser.add_argument('category')
+parser.add_argument('description')
+parser.add_argument('status')
 
 # GET all products
 class ProductList(Resource):
@@ -50,7 +52,23 @@ class ProductCreate(Resource):
             return {"message": "Product created successfully"}, 201
         except Exception as e:
             return {"message": f"Failed to create product: {str(e)}"}, 400
+        
+    @auth_required('token')
+    @roles_accepted('customer', 'admin')
+    def put(self):
+        args = parser.parse_args()
+        try:
+            product = Products.query.filter_by(id=args['id']).first()
+            cart=Cart(product_id=args['id'],user_id=current_user.id,price=args['price'])
+            db.session.add(cart)
+            product.status= args['status']
+            db.session.commit()
+            return {"message": "Product updated successfully"}, 200
+            
+        except Exception as e:
+            return {"message": f"Failed to update product: {str(e)}"}, 400
 
 # Register the endpoints
 api.add_resource(ProductList, '/api/get')      # GET
-api.add_resource(ProductCreate, '/api/post')   # POST
+api.add_resource(ProductCreate, '/api/post',
+                                '/api/put')  
