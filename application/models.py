@@ -30,3 +30,25 @@ class UsersRoles(db.Model):
     role_id= db.Column(db.Integer, db.ForeignKey('role.id'))
  
 
+class Products(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    name=db.Column(db.String, nullable=False)
+    price=db.Column(db.Integer, nullable=False)
+    category=db.Column(db.String, db.ForeignKey('category.name'), nullable=False)
+    description=db.Column(db.String, nullable=False)
+    listedby=db.Column(db.String, nullable=False)
+    status=db.Column(db.String, nullable=False, default="available")
+    boughtby=db.Column(db.String, nullable=True)
+
+class Cart(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    product_id=db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    quantity=db.Column(db.Integer, nullable=False)
+    price=db.Column(db.Integer, nullable=False)
+
+class Category(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    name=db.Column(db.String, nullable=False, unique=True)
+    description=db.Column(db.String, nullable=False)
+

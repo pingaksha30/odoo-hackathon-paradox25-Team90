@@ -6,8 +6,8 @@ from application.resources import api
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_security import hash_password
 from werkzeug.security import check_password_hash, generate_password_hash
-from application.celery_init import celery_init_app
-from celery.schedules import crontab
+# from application.celery_init import celery_init_app
+# from celery.schedules import crontab
 
 def create_app():
     app=Flask(__name__)
@@ -20,8 +20,8 @@ def create_app():
     return app
 
 app= create_app()
-celery = celery_init_app(app)
-celery.autodiscover_tasks()
+# celery = celery_init_app(app)
+# celery.autodiscover_tasks()
 
 with app.app_context():
     db.create_all()

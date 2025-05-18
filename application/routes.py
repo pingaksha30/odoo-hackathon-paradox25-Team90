@@ -1,5 +1,5 @@
 from .database import db
-from .models import User, Role, ServiceReq, Service
+from .models import User, Role
 from flask import current_app as app, jsonify, request, render_template
 from flask_security import auth_required, roles_required, current_user, roles_accepted, login_user
 # from flask_security import hash_password
@@ -72,48 +72,24 @@ def user_login():
         }), 404
 
 
-@app.route('/api/register/<role>', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def create_user(role):
     credentials=request.get_json()
-    if role=="customer":
-        if not app.security.datastore.find_user(email= credentials["email"]):
-            app.security.datastore.create_user(email=credentials["email"],
+    
+    if not app.security.datastore.find_user(email= credentials["email"]):
+        app.security.datastore.create_user(email=credentials["email"],
                                             username=credentials["username"],
                                             password=generate_password_hash(credentials["password"]),
                                             address=credentials['address'],
                                             pincode=credentials['pincode'],
                                             roles=['customer'])
-            db.session.commit()
-            return jsonify(
+        db.session.commit()
+        return jsonify(
                 {
                     "message":"User created successfully"
                 }
             ), 201
-        return jsonify(
-                {
-                    "message":"User already exists"
-                }
-            ), 400
-    elif role=="service_proffesional":
-        if not app.security.datastore.find_user(email= credentials["email"]):
-            app.security.datastore.create_user(email=credentials["email"],
-                                            username=credentials["username"],
-                                            password=generate_password_hash(credentials["password"]),
-                                            address=credentials['address'],
-                                            pincode=credentials['pincode'],
-                                            documents=credentials['documents'],
-                                            experience=credentials['experience'],                                          
-                                            service_type=credentials['service'],
-                                            service_package=credentials['service_package'],                                          
-                                            service_description=credentials['service_description'],                                                                                    
-                                            roles=['service_proffesional'])
-            db.session.commit()
-            return jsonify(
-                {
-                    "message":"User created successfully"
-                }
-            ), 201
-        return jsonify(
+    return jsonify(
                 {
                     "message":"User already exists"
                 }
